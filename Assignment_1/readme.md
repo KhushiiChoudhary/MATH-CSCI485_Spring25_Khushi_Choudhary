@@ -1,7 +1,19 @@
 # Recursive Feature Elimination (RFE) with Linear Regression
 
+## Introduction to Recursive Feature Elimination (RFE)
+
+Recursive Feature Elimination (RFE) is a feature selection method that helps identify the most important features for a predictive model. It works by iteratively fitting a model and removing the least significant features based on model coefficients until a predefined number of features remain. This technique is useful for improving model interpretability and reducing overfitting.
+
 ## Overview
 This project implements **Recursive Feature Elimination (RFE)** using **Linear Regression** to identify the most important features in predicting diabetes progression. The analysis is performed on the **Diabetes dataset** from `sklearn.datasets.load_diabetes()`.
+
+## Requirements
+
+Ensure you have the following dependencies installed:
+- numpy
+- pandas
+- matplotlib
+- scikit-learn
 
 ## Features
 - Dataset: Diabetes dataset containing 442 samples and 10 features.
