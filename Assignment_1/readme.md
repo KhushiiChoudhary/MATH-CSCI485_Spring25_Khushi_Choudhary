@@ -12,7 +12,7 @@ This project implements **Recursive Feature Elimination (RFE)** using **Linear R
 - Key Findings: Identified s1 (Serum Cholesterol Level), s5 (Log Serum Triglycerides Level), and BMI** as the most important features.
 
 ## Results
-- Optimal Number of Features Identified:** 2
+- Optimal Number of Features Identified: 2
 - Most Important Features:
   - s1 (Serum Cholesterol Level): 931.49
   - s5 (Log Serum Triglycerides Level): 736.20
