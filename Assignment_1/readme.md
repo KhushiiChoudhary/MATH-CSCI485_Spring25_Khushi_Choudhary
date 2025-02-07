@@ -9,7 +9,7 @@ This project implements **Recursive Feature Elimination (RFE)** using **Linear R
 - Model Used: Linear Regression.
 - Evaluation Metric: R² Score.
 - Visualization: A plot of R² score vs. the number of retained features.
-- Key Findings: Identified s1 (Serum Cholesterol Level), s5 (Log Serum Triglycerides Level), and BMI** as the most important features.
+- Key Findings: Identified s1 (Serum Cholesterol Level), s5 (Log Serum Triglycerides Level), and BMI as the most important features.
 
 ## Results
 - Optimal Number of Features Identified: 2
