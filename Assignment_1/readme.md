@@ -30,7 +30,7 @@ Ensure you have the following dependencies installed:
   - s5 (Log Serum Triglycerides Level): 736.20
   - BMI (Body Mass Index): 542.43
 - R² Score of Initial Model: 0.4526
-- Final Feature Selection:** Highlighted significant metabolic factors influencing diabetes progression.
+- Final Feature Selection: Highlighted significant metabolic factors influencing diabetes progression.
 
 
 ## Author
