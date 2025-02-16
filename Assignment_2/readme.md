@@ -3,10 +3,10 @@
 ```markdown
 
 
-## 📖 Overview  
+## Overview  
 This project analyzes the **Wine Quality dataset** from the **UCI Machine Learning Repository** using **Principal Component Analysis (PCA)** and **t-SNE**. The goal is to explore dimensionality reduction techniques and compare their effectiveness in clustering wine quality levels.  
 
-## 🔧 Requirements  
+## Requirements  
 Ensure the following Python libraries are installed:  
 
 - `pandas`  
@@ -23,8 +23,8 @@ pip install pandas numpy scikit-learn matplotlib seaborn
 ## How to Use the Code  
 
 ### Download the Dataset  
-✔️ The code retrieves the dataset from the **UCI Machine Learning Repository** automatically.  
-✔️ You can choose to analyze **red wine**, **white wine**, or **combine both**.  
+1. The code retrieves the dataset from the **UCI Machine Learning Repository** automatically.
+2. You can choose to analyze **red wine**, **white wine**, or **combine both**.  
 
 ### Run the Code in Jupyter Notebook  
 1. Open **Jupyter Notebook**.  
