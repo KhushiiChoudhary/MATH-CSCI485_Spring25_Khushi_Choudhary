@@ -1,44 +1,43 @@
-# A5: Image Compression via Block-wise SVD
+# A4: Image Compression via Block-wise SVD
 
-**Student:** Khushi Choudhary
+**Student:** <YourFirstName> <YourLastName>
 **Course:** MATH/CSCI 485 - Spring 2025
 **Assignment:** Assignment 5
 
 ## Objective
 
-This project explores the use of Singular Value Decomposition (SVD) for lossy image compression. The goal is to apply SVD block-wise (to 8x8 non-overlapping blocks) to a grayscale image, retaining only the top 'k' singular values for reconstruction. We analyze how the compression ratio and image quality (measured by reconstruction error and visual inspection) evolve as 'k' varies from 1 to 8.
+This project explores how we can compress grayscale images using a mathematical technique called Singular Value Decomposition (SVD). Instead of applying SVD to the whole image at once, we break the image into small 8x8 blocks and apply SVD to each block individually. We then rebuild the image using only the most important information (the top 'k' singular values) from each block's SVD. The goal is to see how changing 'k' (from 1 to 8) affects the compression amount and the visual quality of the resulting image.
 
 ## Implementation Summary
 
-The process was implemented in the `Assignment5.ipynb` Jupyter Notebook using Python with `numpy`, `opencv-python`, and `matplotlib`.
+The process was carried out in the `Assignment5.ipynb` Jupyter Notebook using Python and common libraries like `numpy` (for math), `opencv-python` (for images), and `matplotlib` (for plots).
 
 1.  **Preprocessing:**
-    *   The `cameraman.png` (256x256) grayscale image was loaded using OpenCV.
-    *   Its dimensions were verified to be divisible by 8, ensuring compatibility with 8x8 block processing.
-    *   The image data was converted from `uint8` to `float64` format, suitable for numerical SVD calculations.
-    *   An output directory (`reconstructed_cameraman/`) was created to store results.
+    *   We started with the `cameraman.png` image (a 256x256 grayscale picture).
+    *   We checked that its size is divisible by 8, which is necessary for breaking it into 8x8 blocks without leftovers.
+    *   We converted the image's pixel data to a format suitable for precise math calculations (float64).
+    *   We created a folder (`reconstructed_cameraman/`) to save the compressed images we generate.
 
 2.  **`compress_block` Function:**
-    *   A function `compress_block(block, k)` was defined to handle the SVD compression for a single 8x8 block.
-    *   It computes the SVD of the input block: \( \text{block} = U \Sigma V^T \) using `np.linalg.svd`.
-*   It truncates the SVD components by keeping only the first \( k \) columns of U (\( U_k \)), the first \( k \) singular values (\( s_k \)), and the first \( k \) rows of Vh (\( V_k^T \)).
-*   It reconstructs the block using the truncated components: \( \text{reconstructed\_block} = U_k \text{diag}(s_k) V_k^T \).
-*   The reconstructed 8x8 block is returned.
+    *   We created a function called `compress_block` that takes one 8x8 image block and the number `k` as input.
+    *   Inside the function, it performs SVD on the block. SVD breaks the block down into three matrices (U, Sigma, V-transpose) that represent different aspects of the block's data. Sigma contains the 'singular values' which tell us the importance of different features.
+    *   The function then keeps only the top `k` most important singular values and the corresponding parts of the U and V-transpose matrices.
+    *   It uses these reduced parts to reconstruct an approximation of the original 8x8 block.
+    *   Finally, it returns this reconstructed (compressed) block.
 
-**Analysis Loop:**
-
-*   The code iterates through \( k = 1, 2, ..., 8 \).
-*   For each \( k \), the original image is processed block by block (8x8).
-*   The `compress_block` function is applied to each block.
-*   The reconstructed blocks are reassembled into a full reconstructed image for that \( k \).
-*   The **Compression Ratio** is calculated as \( \frac{\text{Original Data per Block}}{\text{Retained Data per Block}} = \frac{64}{k \times (8 + 8 + 1)} = \frac{64}{17k} \).
-*   The **Reconstruction Error** is calculated using the Frobenius norm of the difference between the original float image and the reconstructed float image: \( ||\text{Original} - \text{Reconstructed}_k||_F \).
-*   Metrics (ratio, error) are stored, and the reconstructed image for each \( k \) is saved as a PNG file.
-
+3.  **Analysis Loop:**
+    *   The main part of the code loops through `k` from 1 to 8.
+    *   For each value of `k`:
+        *   It goes through the original image, taking one 8x8 block at a time.
+        *   It uses the `compress_block` function (described above) to compress and reconstruct each block using the current value of `k`.
+        *   It puts these reconstructed blocks together to form a complete, new image for that specific `k`.
+        *   It calculates the **Compression Ratio**: This tells us how much smaller the data *could* be. It's calculated as (data in original 8x8 block, which is 64 values) divided by (data needed for the k-SVD components, which turns out to be 17 * k values). A higher ratio means more compression.
+        *   It calculates the **Reconstruction Error**: This measures how different the new compressed image is from the original. We used the Frobenius norm, which gives a single number representing the total pixel-wise difference. A lower error means the compressed image is closer to the original.
+        *   It saves the reconstructed image for the current `k` as a standard PNG file.
 
 ## Results
 
-The analysis loop produced the following quantitative results:
+Running the code produced the following numbers:
 
 **Results Table:**
 
@@ -53,43 +52,43 @@ The analysis loop produced the following quantitative results:
 | 7 | 0.5378            | 51.4319                          |
 | 8 | 0.4706            | 0.0000                           |
 
-*(Note: Processing time per k was also measured and is available in the notebook output, typically around 0.02-0.05s per k on the test machine).*
+*(Note: The time taken for each k was also measured, typically very fast, around 0.02-0.05 seconds per k).*
 
 **Plots and Visualizations:**
 
-The Jupyter Notebook (`Assignment5.ipynb`) contains the following generated plots:
-1.  **Compression Ratio vs. k:** Shows a decreasing trend as k increases.
-2.  **Reconstruction Error vs. k:** Shows a sharply decreasing trend, especially for low k.
-3.  **Image Comparison Grid:** Displays the original image alongside reconstructed images for k=1, 2, 3, 4, 5, 6, and 8, allowing for visual quality assessment.
+The Jupyter Notebook (`Assignment5.ipynb`) shows:
+1.  A plot of **Compression Ratio vs. k**.
+2.  A plot of **Reconstruction Error vs. k**.
+3.  A side-by-side comparison of the **original image and the reconstructed images** for k=1, 2, 3, 4, 5, 6, and 8.
 
 ## Analysis of Results
 
 **Compression Ratio:**
-*   The plot and table confirm that the compression ratio **decreases** hyperbolically as `k` increases (\( \propto 1/k \)). This is logical, as retaining more singular values requires storing more data (\(17k\) values per block).
-*   The highest compression (\( \approx 3.76 \)) occurs at \( k=1 \).
-*   For \( k=4 \), the ratio is slightly less than 1, meaning the compressed representation is slightly larger than the original pixel data if stored naively. For \( k=8 \), the ratio is \( \approx 0.47 \), meaning the SVD components (\( U_8, s_8, V_8^T \)) require significantly more storage than the original 64 pixel values per block. This emphasizes that practical SVD compression relies on \( k < 8 \).
+*   As we increase `k` (keep more information), the compression ratio goes down. This makes sense – keeping more data means less compression.
+*   The best compression happens at `k=1`.
+*   Interestingly, for `k=8` (keeping all information), the "compression ratio" is less than 1. This means storing the SVD parts actually takes *more* space than the original pixels. SVD compression is only useful when we discard some information (use `k < 8`).
 
 **Reconstruction Error:**
-*   The Frobenius norm error **decreases significantly** as `k` increases, particularly between \( k=1 \) and \( k=4 \). This indicates that the first few singular values capture the most dominant structural information within the 8x8 blocks.
-*   The error reduction slows down for higher values of `k`.
-*   At \( k=8 \), the error becomes zero (within floating-point precision), as all original information is used in the reconstruction (\( U \Sigma V^T \)).
+*   As we increase `k`, the error (difference from the original) drops quickly, especially between `k=1` and `k=4`. This tells us the first few singular values capture the most important parts of the image blocks.
+*   The error decreases more slowly for higher `k` values.
+*   At `k=8`, the error is essentially zero, meaning we get back the original block perfectly (or almost perfectly).
 
 **Visual Quality:**
-*   Visual inspection of the reconstructed images (see notebook) aligns with the error metrics.
-*   \( k=1 \) results in a very blocky image with severe detail loss.
-*   Quality improves dramatically for \( k=2 \) and \( k=3 \), though artifacts remain.
-*   \( k=4 \) and \( k=5 \) offer a good balance, retaining most important features with less obvious blockiness.
-*   \( k=6 \) and \( k=8 \) produce images visually very close to the original.
+*   Looking at the actual images confirms the error numbers.
+*   With `k=1`, the image looks very blocky and lacks detail.
+*   Quality gets much better for `k=2` and `k=3`, but you can still see the block boundaries.
+*   Around `k=4` or `k=5`, the image looks pretty good, capturing most details well.
+*   For `k=6` and `k=8`, the images look almost identical to the original.
 
 **Trade-off Summary:**
-The results demonstrate the fundamental trade-off in lossy compression:
-*   **Lower `k`:** Higher compression ratio (smaller file size potential) but lower image quality (higher error, more artifacts).
-*   **Higher `k`:** Lower compression ratio (larger file size potential) but higher image quality (lower error, fewer artifacts).
-The optimal `k` depends on the desired balance between file size and fidelity for a given application. For the cameraman image, \( k \approx 4 \) or \( k \approx 5 \) seems to provide a reasonable compromise.
+This project clearly shows the trade-off:
+*   Using a **small `k`** gives high compression (potentially smaller files) but results in lower image quality (more errors, blocky look).
+*   Using a **large `k`** gives low compression (potentially larger files) but results in high image quality (low error, looks like the original).
+Choosing the best `k` depends on what you need: maximum compression or maximum quality. For this specific image, a `k` value around 4 or 5 seems like a reasonable compromise between saving space and keeping the image looking good.
 
 ## How to Run
 
-1.  **Dependencies:** Ensure you have Python installed with the following libraries:
+1.  **Dependencies:** Make sure you have Python and these libraries:
     *   `numpy`
     *   `matplotlib`
     *   `opencv-python`
@@ -97,15 +96,15 @@ The optimal `k` depends on the desired balance between file size and fidelity fo
     ```bash
     pip install numpy matplotlib opencv-python jupyterlab
     ```
-2.  **Clone/Download:** Get the project files.
-3.  **Run Notebook:** Open and run the cells sequentially in `Assignment5.ipynb` using Jupyter Lab or Jupyter Notebook.
-    *   *Note:* You may need to adjust the `image_path` variable in the second code cell if `cameraman.png` is not in the expected location relative to the notebook.
-4.  **Output:** Reconstructed images will be saved in the `reconstructed_cameraman/` directory. Plots and analysis are displayed directly in the notebook.
+2.  **Get Files:** Download or clone the project files.
+3.  **Run Notebook:** Open `Assignment5.ipynb` in Jupyter Lab or Jupyter Notebook and run the cells one by one.
+    *   *Note:* Check the `image_path` variable in the second code cell to make sure it points correctly to where you saved `cameraman.png`.
+4.  **Output:** The compressed images will appear in the `reconstructed_cameraman/` folder. Plots and results are shown inside the notebook.
 
 ## Files in Repository
 
-*   `Assignment5.ipynb`: Jupyter Notebook containing the Python code, analysis, and generated outputs.
-*   `reconstructed_cameraman/`: Directory containing the reconstructed images for k=1 through k=8 (generated upon running the notebook).
-*   `README.md`: This report file.
-*   (Potentially) `cameraman.png`: The input image used (if included in the repo).
+*   `Assignment5.ipynb`: The main Jupyter Notebook with code, results, and analysis.
+*   `reconstructed_cameraman/`: Folder containing output images (created when you run the notebook).
+*   `README.md`: This explanation file.
+*   (Optional) `cameraman.png`: The input image, if you include it.
 
