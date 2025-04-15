@@ -1,6 +1,6 @@
-# A4: Image Compression via Block-wise SVD
+# A5: Image Compression via Block-wise SVD
 
-**Student:** <YourFirstName> <YourLastName>
+**Student:** Khushi Choudhary
 **Course:** MATH/CSCI 485 - Spring 2025
 **Assignment:** Assignment 5
 
