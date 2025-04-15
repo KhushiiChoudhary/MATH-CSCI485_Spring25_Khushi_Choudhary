@@ -21,18 +21,20 @@ The process was implemented in the `Assignment5.ipynb` Jupyter Notebook using Py
 2.  **`compress_block` Function:**
     *   A function `compress_block(block, k)` was defined to handle the SVD compression for a single 8x8 block.
     *   It computes the SVD of the input block: \( \text{block} = U \Sigma V^T \) using `np.linalg.svd`.
-    *   It truncates the SVD components by keeping only the first `k` columns of U (\( U_k \)), the first `k` singular values (\( s_k \)), and the first `k` rows of Vh (\( V_k^T \)).
-    *   It reconstructs the block using the truncated components: \( \text{reconstructed\_block} = U_k \text{diag}(s_k) V_k^T \).
-    *   The reconstructed 8x8 block is returned.
+*   It truncates the SVD components by keeping only the first \( k \) columns of U (\( U_k \)), the first \( k \) singular values (\( s_k \)), and the first \( k \) rows of Vh (\( V_k^T \)).
+*   It reconstructs the block using the truncated components: \( \text{reconstructed\_block} = U_k \text{diag}(s_k) V_k^T \).
+*   The reconstructed 8x8 block is returned.
 
-3.  **Analysis Loop:**
-    *   The code iterates through \( k = 1, 2, ..., 8 \).
-    *   For each `k`, the original image is processed block by block (8x8).
-    *   The `compress_block` function is applied to each block.
-    *   The reconstructed blocks are reassembled into a full reconstructed image for that `k`.
-    *   The **Compression Ratio** is calculated as \( \frac{\text{Original Data per Block}}{\text{Retained Data per Block}} = \frac{64}{k \times (8 + 8 + 1)} = \frac{64}{17k} \).
-    *   The **Reconstruction Error** is calculated using the Frobenius norm of the difference between the original float image and the reconstructed float image: \( ||\text{Original} - \text{Reconstructed}_k||_F \).
-    *   Metrics (ratio, error) are stored, and the reconstructed image for each `k` is saved as a PNG file.
+**Analysis Loop:**
+
+*   The code iterates through \( k = 1, 2, ..., 8 \).
+*   For each \( k \), the original image is processed block by block (8x8).
+*   The `compress_block` function is applied to each block.
+*   The reconstructed blocks are reassembled into a full reconstructed image for that \( k \).
+*   The **Compression Ratio** is calculated as \( \frac{\text{Original Data per Block}}{\text{Retained Data per Block}} = \frac{64}{k \times (8 + 8 + 1)} = \frac{64}{17k} \).
+*   The **Reconstruction Error** is calculated using the Frobenius norm of the difference between the original float image and the reconstructed float image: \( ||\text{Original} - \text{Reconstructed}_k||_F \).
+*   Metrics (ratio, error) are stored, and the reconstructed image for each \( k \) is saved as a PNG file.
+
 
 ## Results
 
